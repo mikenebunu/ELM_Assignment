@@ -8368,11 +8368,28 @@ var $author$project$VerifyExamples$Model$Date$MonthsBetweenMonths0$spec0 = A2(
 			A2($author$project$Model$Date$monthsBetweenMonths, $author$project$Model$Date$Apr, $author$project$Model$Date$Jan),
 			3);
 	});
-var $author$project$Model$Event$Category$TODOCompleteThisType = {$: 'TODOCompleteThisType'};
-var $author$project$Model$Event$Category$allSelected = $author$project$Model$Event$Category$TODOCompleteThisType;
+var $author$project$Model$Event$Category$AllSelected = {$: 'AllSelected'};
+var $author$project$Model$Event$Category$allSelected = $author$project$Model$Event$Category$AllSelected;
+var $elm$core$List$member = F2(
+	function (x, xs) {
+		return A2(
+			$elm$core$List$any,
+			function (a) {
+				return _Utils_eq(a, x);
+			},
+			xs);
+	});
 var $author$project$Model$Event$Category$isEventCategorySelected = F2(
 	function (category, current) {
-		return false;
+		switch (current.$) {
+			case 'AllSelected':
+				return true;
+			case 'NoneSelected':
+				return false;
+			default:
+				var selectedCategories = current.a;
+				return A2($elm$core$List$member, category, selectedCategories);
+		}
 	});
 var $author$project$VerifyExamples$Model$Event$Category$AllSelected0$spec0 = A2(
 	$elm_explorations$test$Test$test,
@@ -8393,9 +8410,40 @@ var $author$project$VerifyExamples$Model$Event$Category$IsEventCategorySelected0
 			true);
 	});
 var $author$project$Model$Event$Category$Work = {$: 'Work'};
+var $author$project$Model$Event$Category$NoneSelected = {$: 'NoneSelected'};
+var $author$project$Model$Event$Category$SomeSelected = function (a) {
+	return {$: 'SomeSelected', a: a};
+};
+var $author$project$Model$Event$Category$Award = {$: 'Award'};
+var $author$project$Model$Event$Category$Project = {$: 'Project'};
+var $author$project$Model$Event$Category$eventCategories = _List_fromArray(
+	[$author$project$Model$Event$Category$Academic, $author$project$Model$Event$Category$Work, $author$project$Model$Event$Category$Project, $author$project$Model$Event$Category$Award]);
 var $author$project$Model$Event$Category$set = F3(
 	function (category, value, current) {
-		return current;
+		switch (current.$) {
+			case 'AllSelected':
+				return value ? $author$project$Model$Event$Category$AllSelected : $author$project$Model$Event$Category$SomeSelected(
+					A2(
+						$elm$core$List$filter,
+						function (cat) {
+							return !_Utils_eq(cat, category);
+						},
+						$author$project$Model$Event$Category$eventCategories));
+			case 'NoneSelected':
+				return value ? $author$project$Model$Event$Category$SomeSelected(
+					_List_fromArray(
+						[category])) : $author$project$Model$Event$Category$NoneSelected;
+			default:
+				var selectedCategories = current.a;
+				return value ? (A2($elm$core$List$member, category, selectedCategories) ? current : $author$project$Model$Event$Category$SomeSelected(
+					A2($elm$core$List$cons, category, selectedCategories))) : $author$project$Model$Event$Category$SomeSelected(
+					A2(
+						$elm$core$List$filter,
+						function (cat) {
+							return !_Utils_eq(cat, category);
+						},
+						selectedCategories));
+		}
 	});
 var $author$project$VerifyExamples$Model$Event$Category$Set0$spec0 = A2(
 	$elm_explorations$test$Test$test,
@@ -8860,15 +8908,6 @@ var $elm$core$Dict$filter = F2(
 var $elm_explorations$test$Test$Html$Internal$ElmHtml$Constants$styleKey = 'a1';
 var $elm_explorations$test$Test$Html$Internal$ElmHtml$Constants$knownKeys = _List_fromArray(
 	[$elm_explorations$test$Test$Html$Internal$ElmHtml$Constants$styleKey, $elm_explorations$test$Test$Html$Internal$ElmHtml$Constants$eventKey, $elm_explorations$test$Test$Html$Internal$ElmHtml$Constants$attributeKey, $elm_explorations$test$Test$Html$Internal$ElmHtml$Constants$attributeNamespaceKey]);
-var $elm$core$List$member = F2(
-	function (x, xs) {
-		return A2(
-			$elm$core$List$any,
-			function (a) {
-				return _Utils_eq(a, x);
-			},
-			xs);
-	});
 var $elm_explorations$test$Test$Html$Internal$ElmHtml$Helpers$filterKnownKeys = $elm$core$Dict$filter(
 	F2(
 		function (key, _v0) {
@@ -10645,10 +10684,6 @@ var $elm_explorations$test$Test$Html$Query$each = F2(
 			query,
 			A2($elm_explorations$test$Test$Html$Query$Internal$expectAll, check, query));
 	});
-var $author$project$Model$Event$Category$Award = {$: 'Award'};
-var $author$project$Model$Event$Category$Project = {$: 'Project'};
-var $author$project$Model$Event$Category$eventCategories = _List_fromArray(
-	[$author$project$Model$Event$Category$Academic, $author$project$Model$Event$Category$Work, $author$project$Model$Event$Category$Project, $author$project$Model$Event$Category$Award]);
 var $elm_explorations$test$Expect$false = F2(
 	function (message, bool) {
 		return bool ? $elm_explorations$test$Expect$fail(message) : $elm_explorations$test$Expect$pass;
@@ -10828,14 +10863,116 @@ var $author$project$Main$update = F2(
 				return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 			case 'SelectEventCategory':
 				var category = msg.a;
-				return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{
+							selectedEventCategories: A3($author$project$Model$Event$Category$set, category, true, model.selectedEventCategories)
+						}),
+					$elm$core$Platform$Cmd$none);
 			default:
 				var category = msg.a;
-				return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
+				return _Utils_Tuple2(
+					_Utils_update(
+						model,
+						{
+							selectedEventCategories: A3($author$project$Model$Event$Category$set, category, false, model.selectedEventCategories)
+						}),
+					$elm$core$Platform$Cmd$none);
 		}
 	});
+var $author$project$Model$Event$Category$categoryToString = function (category) {
+	switch (category.$) {
+		case 'Academic':
+			return 'Academic';
+		case 'Work':
+			return 'Work';
+		case 'Project':
+			return 'Project';
+		default:
+			return 'Award';
+	}
+};
+var $elm$json$Json$Encode$bool = _Json_wrap;
+var $elm$html$Html$Attributes$boolProperty = F2(
+	function (key, bool) {
+		return A2(
+			_VirtualDom_property,
+			key,
+			$elm$json$Json$Encode$bool(bool));
+	});
+var $elm$html$Html$Attributes$checked = $elm$html$Html$Attributes$boolProperty('checked');
+var $elm$html$Html$Attributes$stringProperty = F2(
+	function (key, string) {
+		return A2(
+			_VirtualDom_property,
+			key,
+			$elm$json$Json$Encode$string(string));
+	});
+var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
+var $elm$html$Html$input = _VirtualDom_node('input');
+var $elm$virtual_dom$VirtualDom$on = _VirtualDom_on;
+var $elm$html$Html$Events$on = F2(
+	function (event, decoder) {
+		return A2(
+			$elm$virtual_dom$VirtualDom$on,
+			event,
+			$elm$virtual_dom$VirtualDom$Normal(decoder));
+	});
+var $elm$html$Html$Events$targetChecked = A2(
+	$elm$json$Json$Decode$at,
+	_List_fromArray(
+		['target', 'checked']),
+	$elm$json$Json$Decode$bool);
+var $elm$html$Html$Events$onCheck = function (tagger) {
+	return A2(
+		$elm$html$Html$Events$on,
+		'change',
+		A2($elm$json$Json$Decode$map, tagger, $elm$html$Html$Events$targetChecked));
+};
+var $elm$virtual_dom$VirtualDom$style = _VirtualDom_style;
+var $elm$html$Html$Attributes$style = $elm$virtual_dom$VirtualDom$style;
+var $elm$html$Html$Attributes$type_ = $elm$html$Html$Attributes$stringProperty('type');
+var $author$project$Model$Event$Category$checkbox = F3(
+	function (name, state, category) {
+		return A2(
+			$elm$html$Html$div,
+			_List_fromArray(
+				[
+					A2($elm$html$Html$Attributes$style, 'display', 'inline'),
+					$elm$html$Html$Attributes$class('category-checkbox')
+				]),
+			_List_fromArray(
+				[
+					A2(
+					$elm$html$Html$input,
+					_List_fromArray(
+						[
+							$elm$html$Html$Attributes$type_('checkbox'),
+							$elm$html$Html$Events$onCheck(
+							function (c) {
+								return _Utils_Tuple2(category, c);
+							}),
+							$elm$html$Html$Attributes$checked(state)
+						]),
+					_List_Nil),
+					$elm$html$Html$text(name)
+				]));
+	});
 var $author$project$Model$Event$Category$view = function (model) {
-	return A2($elm$html$Html$div, _List_Nil, _List_Nil);
+	return A2(
+		$elm$html$Html$div,
+		_List_Nil,
+		A2(
+			$elm$core$List$map,
+			function (category) {
+				return A3(
+					$author$project$Model$Event$Category$checkbox,
+					$author$project$Model$Event$Category$categoryToString(category),
+					A2($author$project$Model$Event$Category$isEventCategorySelected, category, model),
+					category);
+			},
+			$author$project$Model$Event$Category$eventCategories));
 };
 var $author$project$EventCategoryTests$suite = A2(
 	$elm_explorations$test$Test$describe,
@@ -11013,14 +11150,6 @@ var $author$project$Model$Event$categoryView = function (category) {
 			return $elm$html$Html$text('Award');
 	}
 };
-var $elm$html$Html$Attributes$stringProperty = F2(
-	function (key, string) {
-		return A2(
-			_VirtualDom_property,
-			key,
-			$elm$json$Json$Encode$string(string));
-	});
-var $elm$html$Html$Attributes$class = $elm$html$Html$Attributes$stringProperty('className');
 var $elm$core$Tuple$second = function (_v0) {
 	var y = _v0.b;
 	return y;
@@ -11874,11 +12003,11 @@ var $author$project$Test$Generated$Main$main = A2(
 	{
 		globs: _List_Nil,
 		paths: _List_fromArray(
-			['/home/mike/Facultate/Anul3/Elm-Project-updated/tests/DateTests.elm', '/home/mike/Facultate/Anul3/Elm-Project-updated/tests/EventCategoryTests.elm', '/home/mike/Facultate/Anul3/Elm-Project-updated/tests/EventTests.elm', '/home/mike/Facultate/Anul3/Elm-Project-updated/tests/IntervalTests.elm', '/home/mike/Facultate/Anul3/Elm-Project-updated/tests/PersonalDetailsTests.elm', '/home/mike/Facultate/Anul3/Elm-Project-updated/tests/RepoTests.elm', '/home/mike/Facultate/Anul3/Elm-Project-updated/tests/VerifyExamples/Model/Date/Compare0.elm', '/home/mike/Facultate/Anul3/Elm-Project-updated/tests/VerifyExamples/Model/Date/Compare1.elm', '/home/mike/Facultate/Anul3/Elm-Project-updated/tests/VerifyExamples/Model/Date/Compare2.elm', '/home/mike/Facultate/Anul3/Elm-Project-updated/tests/VerifyExamples/Model/Date/Compare3.elm', '/home/mike/Facultate/Anul3/Elm-Project-updated/tests/VerifyExamples/Model/Date/Compare4.elm', '/home/mike/Facultate/Anul3/Elm-Project-updated/tests/VerifyExamples/Model/Date/Compare5.elm', '/home/mike/Facultate/Anul3/Elm-Project-updated/tests/VerifyExamples/Model/Date/MonthsBetween0.elm', '/home/mike/Facultate/Anul3/Elm-Project-updated/tests/VerifyExamples/Model/Date/MonthsBetween1.elm', '/home/mike/Facultate/Anul3/Elm-Project-updated/tests/VerifyExamples/Model/Date/MonthsBetween2.elm', '/home/mike/Facultate/Anul3/Elm-Project-updated/tests/VerifyExamples/Model/Date/MonthsBetween3.elm', '/home/mike/Facultate/Anul3/Elm-Project-updated/tests/VerifyExamples/Model/Date/MonthsBetween4.elm', '/home/mike/Facultate/Anul3/Elm-Project-updated/tests/VerifyExamples/Model/Date/MonthsBetween5.elm', '/home/mike/Facultate/Anul3/Elm-Project-updated/tests/VerifyExamples/Model/Date/MonthsBetween6.elm', '/home/mike/Facultate/Anul3/Elm-Project-updated/tests/VerifyExamples/Model/Date/MonthsBetween7.elm', '/home/mike/Facultate/Anul3/Elm-Project-updated/tests/VerifyExamples/Model/Date/MonthsBetween8.elm', '/home/mike/Facultate/Anul3/Elm-Project-updated/tests/VerifyExamples/Model/Date/MonthsBetween9.elm', '/home/mike/Facultate/Anul3/Elm-Project-updated/tests/VerifyExamples/Model/Date/MonthsBetweenMonths0.elm', '/home/mike/Facultate/Anul3/Elm-Project-updated/tests/VerifyExamples/Model/Date/MonthsBetweenMonths1.elm', '/home/mike/Facultate/Anul3/Elm-Project-updated/tests/VerifyExamples/Model/Date/MonthsBetweenMonths2.elm', '/home/mike/Facultate/Anul3/Elm-Project-updated/tests/VerifyExamples/Model/Event/Category/AllSelected0.elm', '/home/mike/Facultate/Anul3/Elm-Project-updated/tests/VerifyExamples/Model/Event/Category/IsEventCategorySelected0.elm', '/home/mike/Facultate/Anul3/Elm-Project-updated/tests/VerifyExamples/Model/Event/Category/Set0.elm', '/home/mike/Facultate/Anul3/Elm-Project-updated/tests/VerifyExamples/Model/Event/Category/Set1.elm', '/home/mike/Facultate/Anul3/Elm-Project-updated/tests/VerifyExamples/Model/Interval/Compare0.elm', '/home/mike/Facultate/Anul3/Elm-Project-updated/tests/VerifyExamples/Model/Interval/Compare1.elm', '/home/mike/Facultate/Anul3/Elm-Project-updated/tests/VerifyExamples/Model/Interval/Compare2.elm', '/home/mike/Facultate/Anul3/Elm-Project-updated/tests/VerifyExamples/Model/Interval/Compare3.elm', '/home/mike/Facultate/Anul3/Elm-Project-updated/tests/VerifyExamples/Model/Interval/Compare4.elm']),
+			['/home/mike/Facultate/Anul3/PF-Proiect/tests/DateTests.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/EventCategoryTests.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/EventTests.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/IntervalTests.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/PersonalDetailsTests.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/RepoTests.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Date/Compare0.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Date/Compare1.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Date/Compare2.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Date/Compare3.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Date/Compare4.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Date/Compare5.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Date/MonthsBetween0.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Date/MonthsBetween1.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Date/MonthsBetween2.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Date/MonthsBetween3.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Date/MonthsBetween4.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Date/MonthsBetween5.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Date/MonthsBetween6.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Date/MonthsBetween7.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Date/MonthsBetween8.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Date/MonthsBetween9.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Date/MonthsBetweenMonths0.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Date/MonthsBetweenMonths1.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Date/MonthsBetweenMonths2.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Event/Category/AllSelected0.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Event/Category/IsEventCategorySelected0.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Event/Category/Set0.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Event/Category/Set1.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Interval/Compare0.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Interval/Compare1.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Interval/Compare2.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Interval/Compare3.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Interval/Compare4.elm']),
 		processes: 8,
 		report: $author$project$Test$Reporter$Reporter$ConsoleReport($author$project$Console$Text$UseColor),
 		runs: 100,
-		seed: 182178482582162
+		seed: 137461515865840
 	},
 	_List_fromArray(
 		[
@@ -12099,7 +12228,7 @@ var $author$project$Test$Generated$Main$main = A2(
 _Platform_export({'Test':{'Generated':{'Main':{'init':$author$project$Test$Generated$Main$main($elm$json$Json$Decode$int)(0)}}}});}(this));
 return this.Elm;
 })({});
-var pipeFilename = "/tmp/elm_test-38342.sock";
+var pipeFilename = "/tmp/elm_test-14079.sock";
 var net = require('net'),
   client = net.createConnection(pipeFilename);
 
