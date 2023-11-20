@@ -4210,10 +4210,7 @@ var $elm$core$Set$toList = function (_v0) {
 var $elm$core$Basics$EQ = {$: 'EQ'};
 var $elm$core$Basics$GT = {$: 'GT'};
 var $elm$core$Basics$LT = {$: 'LT'};
-var $author$project$Test$Reporter$Reporter$ConsoleReport = function (a) {
-	return {$: 'ConsoleReport', a: a};
-};
-var $author$project$Console$Text$UseColor = {$: 'UseColor'};
+var $author$project$Test$Reporter$Reporter$JsonReport = {$: 'JsonReport'};
 var $elm$core$Debug$todo = _Debug_todo;
 var $author$project$Test$Runner$Node$checkHelperReplaceMe___ = function (_v0) {
 	return _Debug_todo(
@@ -8210,13 +8207,13 @@ var $author$project$Model$Date$compare = F2(
 				} else {
 					var _v4 = _v2.a;
 					var _v5 = _v2.c;
-					return $elm$core$Basics$GT;
+					return $elm$core$Basics$LT;
 				}
 			} else {
 				if (_v2.c.$ === 'Just') {
 					var _v6 = _v2.a;
 					var _v7 = _v2.b;
-					return $elm$core$Basics$LT;
+					return $elm$core$Basics$GT;
 				} else {
 					var _v8 = _v2.a;
 					var _v9 = _v2.b;
@@ -12005,9 +12002,9 @@ var $author$project$Test$Generated$Main$main = A2(
 		paths: _List_fromArray(
 			['/home/mike/Facultate/Anul3/PF-Proiect/tests/DateTests.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/EventCategoryTests.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/EventTests.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/IntervalTests.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/PersonalDetailsTests.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/RepoTests.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Date/Compare0.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Date/Compare1.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Date/Compare2.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Date/Compare3.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Date/Compare4.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Date/Compare5.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Date/MonthsBetween0.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Date/MonthsBetween1.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Date/MonthsBetween2.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Date/MonthsBetween3.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Date/MonthsBetween4.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Date/MonthsBetween5.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Date/MonthsBetween6.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Date/MonthsBetween7.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Date/MonthsBetween8.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Date/MonthsBetween9.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Date/MonthsBetweenMonths0.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Date/MonthsBetweenMonths1.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Date/MonthsBetweenMonths2.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Event/Category/AllSelected0.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Event/Category/IsEventCategorySelected0.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Event/Category/Set0.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Event/Category/Set1.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Interval/Compare0.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Interval/Compare1.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Interval/Compare2.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Interval/Compare3.elm', '/home/mike/Facultate/Anul3/PF-Proiect/tests/VerifyExamples/Model/Interval/Compare4.elm']),
 		processes: 8,
-		report: $author$project$Test$Reporter$Reporter$ConsoleReport($author$project$Console$Text$UseColor),
+		report: $author$project$Test$Reporter$Reporter$JsonReport,
 		runs: 100,
-		seed: 137461515865840
+		seed: 376158560164992
 	},
 	_List_fromArray(
 		[
@@ -12228,7 +12225,7 @@ var $author$project$Test$Generated$Main$main = A2(
 _Platform_export({'Test':{'Generated':{'Main':{'init':$author$project$Test$Generated$Main$main($elm$json$Json$Decode$int)(0)}}}});}(this));
 return this.Elm;
 })({});
-var pipeFilename = "/tmp/elm_test-14079.sock";
+var pipeFilename = "/tmp/elm_test-10842.sock";
 var net = require('net'),
   client = net.createConnection(pipeFilename);
 

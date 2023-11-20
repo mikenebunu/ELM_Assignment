@@ -96,10 +96,10 @@ compare (Date d1) (Date d2) =
             Basics.compare (monthToInt m1) (monthToInt m2)
 
         (EQ, Just _, Nothing) ->
-            GT
+            LT
 
         (EQ, Nothing, Just _) ->
-            LT
+            GT
 
         (EQ, Nothing, Nothing) ->
             EQ
