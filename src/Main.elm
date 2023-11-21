@@ -29,11 +29,17 @@ main =
         , subscriptions = subscriptions
         }
 
+fetchRepos : Cmd Msg
+fetchRepos =
+    Http.get
+        { url = "YOUR_GITHUB_API_URL" -- Replace with the actual GitHub API URL
+        , expect = Http.expectJson GotRepos Repo.decodeRepoList
+        }
 
 init : () -> ( Model, Cmd Msg )
 init _ =
     ( initModel
-    , Cmd.none
+    , fetchRepos
     )
 
 
@@ -46,10 +52,13 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         GetRepos ->
-            ( model, Cmd.none )
+            ( { model | repos = [] }, fetchRepos )
 
-        GotRepos res ->
-            ( model, Cmd.none )
+        GotRepos (Ok repos) ->
+            ( { model | repos = repos }, Cmd.none )
+        
+        GotRepos (Err err) ->
+            (model, Cmd.none)
 
         SelectEventCategory category ->
             ( { model | selectedEventCategories = EventCategory.set category True model.selectedEventCategories }

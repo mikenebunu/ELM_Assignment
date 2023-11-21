@@ -18,16 +18,16 @@ type alias Repo =
 view : Repo -> Html msg
 view repo =
     div [ class "repo" ]
-        [ div [ class "repo-name" ] [ text repo.name ]
+        [ p [ class "repo-name" ] [ text repo.name ]
         , case repo.description of
             Just desc ->
-                div [ class "repo-description" ] [ text desc ]
+                p [ class "repo-description" ] [ text desc ]
 
             Nothing ->
                 text ""
 
-        , a [ class "repo-url", href repo.url ] [ text repo.url ]
-        , div [ class "repo-stars" ] [ text <| String.fromInt repo.stars ]
+        , p [ class "repo-url" ] [ a [ href repo.url ] [ text repo.url ] ]
+        , p [ class "repo-stars" ] [ text <| String.fromInt repo.stars ]
         ]
 
 
@@ -54,3 +54,7 @@ decodeRepo =
         (De.field "html_url" De.string)
         (De.field "pushed_at" De.string)
         (De.field "stargazers_count" De.int)
+
+decodeRepoList : De.Decoder (List Repo)
+decodeRepoList =
+    De.list decodeRepo
