@@ -12,6 +12,7 @@ type EventCategory
     | Award
 
 
+eventCategories : List EventCategory
 eventCategories =
     [ Academic, Work, Project, Award ]
 
@@ -34,14 +35,7 @@ allSelected =
     AllSelected
     --Debug.todo "Implement Model.Event.Category.allSelected"
 
-{-| Returns an instance of `SelectedEventCategories` with no categories selected
 
--- isEventCategorySelected Academic noneSelected --> False
-
--}
-noneSelected : SelectedEventCategories
-noneSelected =
-    NoneSelected
     --Debug.todo "Implement Model.Event.Category.noneSelected"
 
 {-| Given a the current state and a `category` it returns whether the `category` is selected.

@@ -3,7 +3,7 @@ module Model.Event exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (class, classList, href)
 import Model.Event.Category exposing (EventCategory(..))
-import Model.Interval as Interval exposing (Interval, compare)
+import Model.Interval as Interval exposing (Interval)
 
 
 type alias Event =

@@ -2,10 +2,9 @@ module Main exposing (..)
 
 import Browser
 import Html exposing (..)
-import Html.Attributes exposing (style)
+import Html.Attributes exposing (..)
 import Html.Events exposing (..)
 import Http
-import Json.Decode as De
 import Model exposing (..)
 import Model.Event as Event
 import Model.Event.Category as EventCategory
@@ -44,7 +43,7 @@ init _ =
 
 
 subscriptions : Model -> Sub Msg
-subscriptions model =
+subscriptions _ =
     Sub.none
 
 
@@ -57,7 +56,7 @@ update msg model =
         GotRepos (Ok repos) ->
             ( { model | repos = repos }, Cmd.none )
         
-        GotRepos (Err err) ->
+        GotRepos (Err _) ->
             (model, Cmd.none)
 
         SelectEventCategory category ->

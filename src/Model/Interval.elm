@@ -1,9 +1,9 @@
 module Model.Interval exposing (Interval, compare, full, length, oneYear, open, view, withDurationMonths, withDurationYears)
 
-import Html exposing (Html, div, p, text)
-import Html.Attributes exposing (class, style)
+import Html exposing (Html, div)
+import Html.Attributes exposing (..)
 import Model.Date as Date exposing (Date, Month)
-import Model.Util exposing (chainCompare)
+import Model.Util exposing (..)
 
 
 type Interval
@@ -121,6 +121,6 @@ compare (Interval intA) (Interval intB) =
 
 
 view : Interval -> Html msg
-view interval =
+view _ =
     div [] []
     --Debug.todo "Implement Model.Interval.view"

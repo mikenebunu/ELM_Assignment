@@ -11702,7 +11702,6 @@ var $author$project$Main$update = F2(
 							{repos: repos}),
 						$elm$core$Platform$Cmd$none);
 				} else {
-					var err = msg.a.a;
 					return _Utils_Tuple2(model, $elm$core$Platform$Cmd$none);
 				}
 			case 'SelectEventCategory':
@@ -12015,7 +12014,7 @@ var $elm$html$Html$Attributes$href = function (url) {
 		'href',
 		_VirtualDom_noJavaScriptUri(url));
 };
-var $author$project$Model$Interval$view = function (interval) {
+var $author$project$Model$Interval$view = function (_v0) {
 	return A2($elm$html$Html$div, _List_Nil, _List_Nil);
 };
 var $author$project$Model$Event$view = function (event) {
@@ -13055,7 +13054,7 @@ var $author$project$Test$Generated$Main$main = A2(
 _Platform_export({'Test':{'Generated':{'Main':{'init':$author$project$Test$Generated$Main$main($elm$json$Json$Decode$int)(0)}}}});}(this));
 return this.Elm;
 })({});
-var pipeFilename = "/tmp/elm_test-8417.sock";
+var pipeFilename = "/tmp/elm_test-11420.sock";
 var net = require('net'),
   client = net.createConnection(pipeFilename);
 
