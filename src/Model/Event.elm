@@ -32,13 +32,13 @@ categoryView category =
         Award ->
             text "Award"
 
-compareEventsByInterval : Event -> Event -> Order
-compareEventsByInterval eventA eventB =
+compareEvents : Event -> Event -> Order
+compareEvents eventA eventB =
     Interval.compare eventA.interval eventB.interval
 
 sortByInterval : List Event -> List Event
 sortByInterval events =
-    List.sortWith compareEventsByInterval events
+    List.sortWith compareEvents events
 
 
 view : Event -> Html Never

@@ -96,18 +96,28 @@ If the `start` field is equal, the they are compare by the `end` fields:
 -}
 compare : Interval -> Interval -> Order
 compare (Interval intA) (Interval intB) =
-    case (intA.end, intB.end) of
-        (Just endA, Just endB) ->
-            Date.compare endA endB
+    let
+        startComparison =
+            Date.compare intA.start intB.start
 
-        (Nothing, Just _) ->
-            GT
+        endComparison =
+            case (intA.end, intB.end) of
+                (Nothing, Nothing) ->
+                    EQ
 
-        (Just _, Nothing) ->
-            LT
+                (Just _, Nothing) ->
+                    GT
 
-        (Nothing, Nothing) ->
-            EQ
+                (Nothing, Just _) ->
+                    LT
+
+                (Just dateA, Just dateB) ->
+                    Date.compare dateA dateB
+    in
+    if startComparison == EQ then
+        endComparison
+    else
+        startComparison
 
 
 view : Interval -> Html msg

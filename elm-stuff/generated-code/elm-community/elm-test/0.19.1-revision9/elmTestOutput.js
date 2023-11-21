@@ -8633,26 +8633,30 @@ var $author$project$Model$Interval$compare = F2(
 	function (_v0, _v1) {
 		var intA = _v0.a;
 		var intB = _v1.a;
-		var _v2 = _Utils_Tuple2(intA.end, intB.end);
-		if (_v2.a.$ === 'Just') {
-			if (_v2.b.$ === 'Just') {
-				var endA = _v2.a.a;
-				var endB = _v2.b.a;
-				return A2($author$project$Model$Date$compare, endA, endB);
+		var startComparison = A2($author$project$Model$Date$compare, intA.start, intB.start);
+		var endComparison = function () {
+			var _v2 = _Utils_Tuple2(intA.end, intB.end);
+			if (_v2.a.$ === 'Nothing') {
+				if (_v2.b.$ === 'Nothing') {
+					var _v3 = _v2.a;
+					var _v4 = _v2.b;
+					return $elm$core$Basics$EQ;
+				} else {
+					var _v6 = _v2.a;
+					return $elm$core$Basics$LT;
+				}
 			} else {
-				var _v4 = _v2.b;
-				return $elm$core$Basics$LT;
+				if (_v2.b.$ === 'Nothing') {
+					var _v5 = _v2.b;
+					return $elm$core$Basics$GT;
+				} else {
+					var dateA = _v2.a.a;
+					var dateB = _v2.b.a;
+					return A2($author$project$Model$Date$compare, dateA, dateB);
+				}
 			}
-		} else {
-			if (_v2.b.$ === 'Just') {
-				var _v3 = _v2.a;
-				return $elm$core$Basics$GT;
-			} else {
-				var _v5 = _v2.a;
-				var _v6 = _v2.b;
-				return $elm$core$Basics$EQ;
-			}
-		}
+		}();
+		return _Utils_eq(startComparison, $elm$core$Basics$EQ) ? endComparison : startComparison;
 	});
 var $author$project$Model$Interval$open = function (start) {
 	return $author$project$Model$Interval$Interval(
@@ -10982,13 +10986,13 @@ var $author$project$Model$projectEvens = _List_fromArray(
 		url: $elm$core$Maybe$Nothing
 	}
 	]);
-var $author$project$Model$Event$compareEventsByInterval = F2(
+var $author$project$Model$Event$compareEvents = F2(
 	function (eventA, eventB) {
 		return A2($author$project$Model$Interval$compare, eventA.interval, eventB.interval);
 	});
 var $elm$core$List$sortWith = _List_sortWith;
 var $author$project$Model$Event$sortByInterval = function (events) {
-	return A2($elm$core$List$sortWith, $author$project$Model$Event$compareEventsByInterval, events);
+	return A2($elm$core$List$sortWith, $author$project$Model$Event$compareEvents, events);
 };
 var $author$project$Model$workEvents = _List_fromArray(
 	[
@@ -13051,7 +13055,7 @@ var $author$project$Test$Generated$Main$main = A2(
 _Platform_export({'Test':{'Generated':{'Main':{'init':$author$project$Test$Generated$Main$main($elm$json$Json$Decode$int)(0)}}}});}(this));
 return this.Elm;
 })({});
-var pipeFilename = "/tmp/elm_test-4158.sock";
+var pipeFilename = "/tmp/elm_test-8417.sock";
 var net = require('net'),
   client = net.createConnection(pipeFilename);
 
